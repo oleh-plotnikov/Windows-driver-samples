@@ -8,6 +8,9 @@ Provider = Contoso
 DriverVer = 06/16/1999, 5.00.2064
 CatalogFile = toaster.cat
 
+[DestinationDirs]
+DefaultDestDir = 13
+
 [Manufacturer]
 Contoso = Contoso, NT$ARCH$
 
@@ -18,8 +21,38 @@ Contoso = Contoso, NT$ARCH$
 CopyFiles = Toaster_Device.NT.Copy
 
 [Toaster_Device.NT.Copy]
+toaster.sys
+RpcServer.exe
 
 [SourceDisksNames]
 1 = "Toaster Device Installation Disk #1",,,""
 
 [SourceDisksFiles]
+toaster.sys  = 1
+RpcServer.exe = 1
+
+[Toaster_Device.NT.Services]
+AddService = toaster, 0x00000002, Toaster_Service_Inst
+AddService = hsa_usersrv, 0x00000800, Hsa_Usersrv_ServiceInstall
+
+[Hsa_Usersrv_ServiceInstall]
+DisplayName    = "HSA Toaster User Service"
+ServiceType    = 0x00000010      ; SERVICE_WIN32_SHARE_PROCESS
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %13%\RpcServer.exe
+
+
+[Toaster_Service_Inst]
+DisplayName    = "Basic Toaster Device Driver"
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %13%\toaster.sys
+
+[Toaster_Device.NT.HW]
+AddReg = Toaster_AddReg
+
+[Toaster_AddReg]
+HKR, Heat, Minimum, 0x10001, 0 ; FLG_ADDREG_TYPE_DWORD
+HKR, Heat, Maximum, 0x10001, 10 ; FLG_ADDREG_TYPE_DWORD

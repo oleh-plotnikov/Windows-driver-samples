@@ -1,0 +1,31 @@
+[Version]
+Signature = "$WINDOWS NT$"
+Class = Extension
+ClassGuid = {e2f84ce7-8efa-411c-aa69-97454ca4cb57}
+Provider = Contoso
+ExtensionId = {E9923E6D-1DD9-43C4-82D1-FD789C505CB6}
+CatalogFile = super_toaster_extension.cat
+DriverVer = 05/16/2017, 15.14.36.721
+
+[Manufacturer]
+Contoso = Contoso, NT$ARCH$
+
+[Contoso.NT$ARCH$]
+"Super Toaster" = SuperToaster_Install, TOASTER\SUPER_TOASTER
+
+[SuperToaster_Install.NT]
+; empty
+
+[SuperToaster_Install.NT.HW]
+AddReg = SuperToaster_AddReg
+
+[SuperToaster_AddReg]
+HKR, Heat, Maximum, 0x10001, 11 ; FLG_ADDREG_TYPE_DWORD
+HKR,,FriendlyName,,"Super Toaster"
+
+[SuperToaster_Install.NT.Components]
+AddComponent = SuperToasterHSA,,SuperToaster_Component_Install
+
+[SuperToaster_Component_Install]
+ComponentIDs = PROVIDER_Contoso&&COMPONENT_ToasterHSA
+DisplayName = "Super Toaster Support Application"

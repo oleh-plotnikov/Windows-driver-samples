@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Toaster Driver\Service\RpcInterface.acf" />
+    <None Include="CustomCapability.SCCD" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="..\..\..\..\Toaster Driver\Service\RpcInterface.Idl" />

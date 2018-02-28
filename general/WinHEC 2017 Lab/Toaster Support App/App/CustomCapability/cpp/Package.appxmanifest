@@ -37,5 +37,9 @@
       </uap:VisualElements>
     </Application>
   </Applications>
+  <Capabilities>
+    <uap4:CustomCapability Name="microsoft.hsaTestCustomCapability_q536wpkpf5cy2"/>
+  </Capabilities>
 
 </Package>
+  

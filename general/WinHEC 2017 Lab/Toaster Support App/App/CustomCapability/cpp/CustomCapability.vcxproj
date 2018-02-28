@@ -277,6 +277,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Toaster Driver\Service\RpcInterface.acf" />
+    <None Include="CustomCapability.SCCD">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="..\..\..\..\Toaster Driver\Service\RpcInterface.Idl" />

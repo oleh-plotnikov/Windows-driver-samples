@@ -25,6 +25,7 @@ using namespace RpcServer;
 
 #define DEFAULT_METERING_PERIOD 100
 
+const WCHAR* CustomCapabilityName = L"microsoft.hsaTestCustomCapability_q536wpkpf5cy2";
 bool ShutdownRequested;
 static RPC_BINDING_VECTOR* BindingVector = nullptr;
 
@@ -100,6 +101,24 @@ DWORD RpcServerStart()
 
     // Now create the Access Control List (ACL) for the Security descriptor
 
+	if (!DeriveCapabilitySidsFromName(
+		CustomCapabilityName,
+		&capabilityGroupSids,
+		&capabilityGroupSidCount,
+		&capabilitySids,
+		&capabilitySidCount))
+	{
+		hResult = GetLastError();
+		goto end;
+	}
+
+	if (capabilitySidCount != 1)
+	{
+		// Unexpected sid count
+		hResult = ERROR_INVALID_PARAMETER;
+		goto end;
+	}
+
     // Everyone GENERIC_ALL access
     ea[0].grfAccessMode = SET_ACCESS;
     ea[0].grfAccessPermissions = GENERIC_ALL;
@@ -114,7 +133,7 @@ DWORD RpcServerStart()
     ea[1].grfInheritance = NO_INHERITANCE;
     ea[1].Trustee.TrusteeForm = TRUSTEE_IS_SID;
     ea[1].Trustee.TrusteeType = TRUSTEE_IS_UNKNOWN;
-	ea[1].Trustee.ptstrName = static_cast<LPWSTR>(everyoneSid);
+	ea[1].Trustee.ptstrName = static_cast<LPWSTR>(capabilitySids[0]);
 
     hResult = SetEntriesInAcl(ARRAYSIZE(ea), ea, nullptr, &acl);
 
